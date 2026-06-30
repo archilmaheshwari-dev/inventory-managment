@@ -9,13 +9,14 @@ from contextlib import contextmanager
 
 
 def get_connection():
-    """Create a new database connection using environment variables"""
     return psycopg2.connect(
         host=os.getenv("DB_HOST"),
         port=os.getenv("DB_PORT", "5432"),
         dbname=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD")
+        password=os.getenv("DB_PASSWORD"),
+        gssencmode="disable",
+        options="-c AddressFamily=inet"
     )
 
 
