@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Clinic System{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; color: #1e293b; }
+        nav { background: #0f6e56; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
+        nav .brand { font-size: 18px; font-weight: 600; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        h1 { font-size: 24px; margin-bottom: 16px; }
+        h2 { font-size: 18px; margin-bottom: 12px; color: #0f6e56; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { color: #64748b; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
+        label { font-size: 13px; color: #475569; font-weight: 500; display: block; margin-bottom: 4px; }
+        button, .btn { background: #0f6e56; color: white; border: none; padding: 10px 18px; border-radius: 6px; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+        button:hover, .btn:hover { background: #085041; }
+        .btn-secondary { background: #64748b; }
+        .error { color: #a32d2d; background: #fcebeb; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+        .badge-low { background: #fcebeb; color: #a32d2d; }
+        .badge-ok { background: #eaf3de; color: #27500a; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <span class="brand">🦷 Clinic System</span>
+        <div>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('new_patient') }}">New Patient</a>
+            <a href="{{ url_for('inventory_list') }}">Inventory</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

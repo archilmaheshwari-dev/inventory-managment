@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Create Bill{% endblock %}
+{% block content %}
+<h1>Create Pharmacy Bill</h1>
+
+{% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+<div class="card">
+    <form method="POST" id="billForm">
+        <h2>Items</h2>
+        <div id="itemsList">
+            <div class="item-row" style="display:flex; gap:10px; margin-bottom:10px;">
+                <select name="medicine_id" style="flex:2;" required>
+                    <option value="">Select medicine</option>
+                    {% for m in medicines %}
+                    <option value="{{ m.id }}">{{ m.name }} (₹{{ m.unit_price }}, stock: {{ m.stock_quantity }})</option>
+                    {% endfor %}
+                </select>
+                <input type="number" name="quantity" placeholder="Qty" style="flex:1;" required>
+            </div>
+        </div>
+        <button type="button" onclick="addItemRow()" class="btn-secondary" style="margin-bottom: 16px;">+ Add Another Item</button>
+
+        <label>Discount (₹)</label>
+        <input type="number" step="0.01" name="discount" value="0">
+
+        <button type="submit">Generate Bill</button>
+    </form>
+</div>
+
+<script>
+function addItemRow() {
+    const list = document.getElementById('itemsList');
+    const row = list.children[0].cloneNode(true);
+    row.querySelectorAll('select, input').forEach(el => el.value = '');
+    list.appendChild(row);
+}
+</script>
+{% endblock %}

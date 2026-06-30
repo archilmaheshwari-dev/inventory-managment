@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}New Patient{% endblock %}
+
+{% block content %}
+
+<h1>Add New Patient</h1>
+
+<div class="card" style="max-width: 400px;">
+
+    <form method="POST">
+
+        <label>Full Name</label>
+        <input
+          type="text"
+          name="name"
+          required
+          oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')"
+        >
+
+        <label>Phone Number</label>
+        <input
+           type="text"
+           name="phone"
+           value="91"
+           maxlength="12"
+           required
+           oninput="
+                this.value = this.value.replace(/\D/g, '');
+                if (!this.value.startsWith('91')) this.value = '91';
+                if (this.value.length > 12) this.value = this.value.slice(0, 12);
+    "
+>
+
+        <button type="submit">Add Patient</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Invoice{% endblock %}
+{% block content %}
+<h1>Invoice #{{ sale.id }}</h1>
+
+<div class="card">
+    <p style="color:#64748b; font-size:13px; margin-bottom:16px;">Date: {{ sale.sale_date.strftime('%d %B %Y, %I:%M %p') }}</p>
+
+    <table>
+        <tr><th>Medicine</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+        {% for item in sale['items'] %}
+        <tr>
+            <td>{{ item.medicine_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.price_at_sale }}</td>
+            <td>₹{{ (item.price_at_sale * item.quantity) | round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div style="margin-top: 20px; text-align: right;">
+        <p>Subtotal: ₹{{ sale.total_amount }}</p>
+        <p>Discount: -₹{{ sale.discount }}</p>
+        <h2 style="margin-top:8px;">Total: ₹{{ sale.final_amount }}</h2>
+    </div>
+</div>
+
+<a href="{{ url_for('patient_detail', patient_id=sale.patient_id) }}" class="btn btn-secondary">Back to Patient</a>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Patient Detail{% endblock %}
+{% block content %}
+<h1>Patient Record</h1>
+
+<div class="grid-2">
+    <div class="card">
+        <h2>Log a Visit</h2>
+        <form method="POST" action="{{ url_for('log_visit', patient_id=patient_id) }}">
+            <label>Treatment Done</label>
+            <input type="text" name="treatment" placeholder="e.g. Root Canal" required>
+            <label>Notes</label>
+            <textarea name="notes" rows="3" placeholder="Optional notes"></textarea>
+            <button type="submit">Save Visit</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Schedule Next Appointment</h2>
+        <form method="POST" action="{{ url_for('schedule_appointment', patient_id=patient_id) }}">
+            <label>Date</label>
+            <input type="date" name="date" required>
+            <label>Time</label>
+            <input type="text" name="time" placeholder="e.g. 3:00 PM" required>
+            <label>Treatment</label>
+            <input type="text" name="treatment" placeholder="e.g. Follow-up Cleaning">
+            <button type="submit">Schedule</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Visit History</h2>
+    {% if visits %}
+    <table>
+        <tr><th>Date</th><th>Treatment</th><th>Notes</th></tr>
+        {% for v in visits %}
+        <tr>
+            <td>{{ v.visit_date }}</td>
+            <td>{{ v.treatment_done }}</td>
+            <td>{{ v.notes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#64748b; font-size:14px;">No visits recorded yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Upcoming Appointments</h2>
+    {% if appointments %}
+    <table>
+        <tr><th>Date</th><th>Time</th><th>Treatment</th></tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.appointment_date }}</td>
+            <td>{{ a.appointment_time }}</td>
+            <td>{{ a.treatment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#64748b; font-size:14px;">No upcoming appointments.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Billing History</h2>
+    <a href="{{ url_for('create_bill', patient_id=patient_id) }}" class="btn">+ Create New Bill</a>
+    <br><br>
+    {% if sales %}
+    <table>
+        <tr><th>Date</th><th>Total</th><th>Discount</th><th>Final</th><th></th></tr>
+        {% for s in sales %}
+        <tr>
+            <td>{{ s.sale_date.strftime('%d %b %Y') }}</td>
+            <td>₹{{ s.total_amount }}</td>
+            <td>₹{{ s.discount }}</td>
+            <td>₹{{ s.final_amount }}</td>
+            <td><a href="{{ url_for('view_invoice', sale_id=s.id) }}">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#64748b; font-size:14px;">No bills generated yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

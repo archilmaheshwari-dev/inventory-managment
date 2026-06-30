@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="grid-2">
+    <div class="card">
+        <h2>Today's Visits</h2>
+        {% if todays_visits %}
+        <table>
+            <tr><th>Patient</th><th>Treatment</th><th>Time</th></tr>
+            {% for v in todays_visits %}
+            <tr>
+                <td><a href="{{ url_for('patient_detail', patient_id=v.patient_id) }}">{{ v.name }}</a></td>
+                <td>{{ v.treatment_done }}</td>
+                <td>{{ v.created_at.strftime('%I:%M %p') }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p style="color:#64748b; font-size:14px;">No visits logged today yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>Upcoming Appointments</h2>
+        {% if upcoming %}
+        <table>
+            <tr><th>Patient</th><th>Date</th><th>Time</th></tr>
+            {% for a in upcoming %}
+            <tr>
+                <td><a href="{{ url_for('patient_detail', patient_id=a.patient_id) }}">{{ a.name }}</a></td>
+                <td>{{ a.appointment_date }}</td>
+                <td>{{ a.appointment_time }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p style="color:#64748b; font-size:14px;">No upcoming appointments.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h2>⚠️ Low Stock Alert</h2>
+    {% if low_stock %}
+    <table>
+        <tr><th>Medicine</th><th>Stock Left</th><th></th></tr>
+        {% for m in low_stock %}
+        <tr>
+            <td>{{ m.name }}</td>
+            <td><span class="badge badge-low">{{ m.stock_quantity }} left</span></td>
+            <td><a href="{{ url_for('inventory_list') }}" class="btn btn-secondary" style="font-size:12px; padding:6px 12px;">Restock</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="color:#64748b; font-size:14px;">All medicines are well stocked.</p>
+    {% endif %}
+</div>
+{% endblock %}
